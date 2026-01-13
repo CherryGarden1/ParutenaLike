@@ -1,0 +1,16 @@
+# Unity generated
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Ll]ogs/
+UserSettings/
+
+# Visual Studio / Rider
+.vs/
+.vsconfig
+*.csproj
+*.sln
+
+# Builds
+[Bb]uild/
+[Bb]uilds/
