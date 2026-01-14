@@ -3,12 +3,14 @@ using UnityEngine;
 
 public class EnemyBase : MonoBehaviour
 {
+	[SerializeField]
+	private GameObject ExplosionEffect;
 	public int hp = 10;
 
 	// BlastManager が受け取るイベント
 	public static event Action<Vector3, EnemyBase> OnEnemyExploded;
 
-	public GameObject explosionPrefab;
+	//public GameObject explosionPrefab;
 
 	// ------------------------------------
 	// damage を受ける
@@ -46,12 +48,13 @@ public class EnemyBase : MonoBehaviour
 	// ------------------------------------
 	private void Explode()
 	{
-		if (explosionPrefab)
-		{
-			Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-		}
+	
+			Instantiate(ExplosionEffect, transform.position, Quaternion.identity);
+		
 
 		// 連鎖爆発マネージャーに通知
 		OnEnemyExploded?.Invoke(transform.position, this);
+		//オブジェクト破壊
+		Destroy(gameObject);
 	}
 }
