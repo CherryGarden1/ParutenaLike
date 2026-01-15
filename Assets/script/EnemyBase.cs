@@ -54,7 +54,7 @@ public class EnemyBase : MonoBehaviour
 
 		// 連鎖爆発マネージャーに通知
 		OnEnemyExploded?.Invoke(transform.position, this);
-		//オブジェクト破壊
-		Destroy(gameObject);
+		//オブジェクト破壊0.05s遅らせ
+		Destroy(gameObject,0.05f);
 	}
 }

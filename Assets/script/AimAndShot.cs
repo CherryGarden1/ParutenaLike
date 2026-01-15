@@ -71,7 +71,12 @@ public class AimAndShot : MonoBehaviour
 		//else
 		//	targetPos = ray.origin + ray.direction * 1000f;
 		//弾を生成
-		GameObject b = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+		GameObject b = Instantiate(
+			bulletPrefab, 
+			firePoint.position,
+			firePoint.rotation,
+			WolrdScrollManager.Instance.Transform
+			);
 
 		Rigidbody rb = b.GetComponent<Rigidbody>();
 		if (rb != null)
