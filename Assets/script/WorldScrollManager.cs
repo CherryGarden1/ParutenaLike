@@ -1,8 +1,8 @@
 using UnityEngine;
 //ワールド全体をスクロール
-public class WolrdScrollManager : MonoBehaviour
+public class WorldScrollManager : MonoBehaviour
 {
-	public static WolrdScrollManager Instance;
+	public static WorldScrollManager Instance;
 	public float scrollSpeed = 20f;
 
 	//最初に呼ばれる
@@ -10,12 +10,14 @@ public class WolrdScrollManager : MonoBehaviour
 	{
 		//自信をス他ティック変数に代入
 		Instance = this;
+		//Debug.Log("WorldScrollManager amake");
 	}
+
 
 	//指定したtransformをスクロールさせる
 	//引数ｔ　：動かしたいオブジェクトのtransfom
-	public void ApplySclooll(Transform t)
+	 void Update()
 	{
-		t.position += Vector3.forward * scrollSpeed * Time.deltaTime;
+		transform.position += Vector3.forward * scrollSpeed * Time.deltaTime;
 	}
 }

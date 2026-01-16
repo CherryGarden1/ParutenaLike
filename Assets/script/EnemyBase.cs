@@ -4,7 +4,7 @@ using UnityEngine;
 public class EnemyBase : MonoBehaviour
 {
 	[SerializeField]
-	private GameObject ExplosionEffect;
+	private GameObject ExplosionSphere;
 	public int hp = 10;
 
 	// BlastManager が受け取るイベント
@@ -48,8 +48,16 @@ public class EnemyBase : MonoBehaviour
 	// ------------------------------------
 	private void Explode()
 	{
-	
-			Instantiate(ExplosionEffect, transform.position, Quaternion.identity);
+		if (ExplosionSphere)
+		{
+
+			GameObject fx = Instantiate(ExplosionSphere,
+				transform.position,
+				Quaternion.identity
+			);
+			//親を外す
+			fx.transform.SetParent(null);
+		}
 		
 
 		// 連鎖爆発マネージャーに通知

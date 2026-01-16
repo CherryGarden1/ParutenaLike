@@ -75,7 +75,7 @@ public class AimAndShot : MonoBehaviour
 			bulletPrefab, 
 			firePoint.position,
 			firePoint.rotation,
-			WolrdScrollManager.Instance.Transform
+			WorldScrollManager.Instance.transform
 			);
 
 		Rigidbody rb = b.GetComponent<Rigidbody>();
@@ -101,11 +101,15 @@ public class AimAndShot : MonoBehaviour
 		//else
 		//	targetPos = ray.origin + ray.direction * 1000f;
 		//弾を生成
-		GameObject b = Instantiate(bulustPrefab, firePoint.position, firePoint.rotation);
+		GameObject b = Instantiate(bulustPrefab, 
+			firePoint.position, 
+			firePoint.rotation,
+			WorldScrollManager.Instance.transform);
 
 		Rigidbody rb = b.GetComponent<Rigidbody>();
 		if (rb != null)
 		{
+
 			rb.useGravity = false; // 重力を無効化
 
 			//クロスヘアに向けて飛ばす
