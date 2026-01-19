@@ -14,6 +14,9 @@ public class CrossHair : MonoBehaviour
     //íxâÑÇ»ÇµÇ≈í«è]
     [SerializeField]
     public float smoothSpeed = 0f;
+	//âÊñ ì‡Ç≈êßå¿
+	[SerializeField]
+	public Vector2 Limit = new Vector2(500, 500);
 
     Vector3 velocity;
 	void Update()
@@ -45,6 +48,10 @@ public class CrossHair : MonoBehaviour
 			else
 				crosshairRect.position = pos;
 		}
+
+		targetPos.x = Mathf.Clamp(targetPos.x, -Limit.x, Limit.x);
+		targetPos.y = Mathf.Clamp(targetPos.y, -Limit.y, Limit.y);
+
 
 	}
 }
