@@ -4,20 +4,39 @@ public class AimAndShot : MonoBehaviour
 {
 	[Header("References")]
 	public Transform shipTransform; //自機
-	public RectTransform crosshairUI;      // UI上のクロスヘア
+	public RectTransform crossHair;      // UI上のクロスヘア
 	public GameObject bulletPrefab; //弾素材
 	public GameObject bulustPrefab;
 	public Transform firePoint; //発射位置
 	public Camera mainCamera;              // メインカメラ
+	public PlayerCore core;
+	public enum AimMode
+	{
+		Plane,
+		Human
+	}
 
 	[Header("Settings")]
 	public float turnSpeed = 2f;  //振り向き速度
 
+	[Header("Spawn Parent")]
+	[SerializeField] private Transform bulletParent;
+	void Start()
+		{
+		if(mainCamera == null)
+			mainCamera = Camera.main;
+		//親が未設定ならWorldScloolManagerを探す
+		if(bulletParent == null && WorldScrollManager.Instance != null)
+		{
+			bulletParent = WorldScrollManager.Instance.transform;
+		}
+		}
+
 	void Update()
 	{
-		if (mainCamera == null || shipTransform == null || crosshairUI == null) return;
+		if (mainCamera == null || shipTransform == null || core.CrossHair == null) return;
 		//スクリーン座標に変換
-		Vector3 screenPos =  crosshairUI.position;
+		Vector3 screenPos =  core.CrossHair.ScreenPosition;
 
 		// === スクリーン座標 → レイ ===
 		Ray ray = mainCamera.ScreenPointToRay(screenPos);
@@ -62,14 +81,7 @@ public class AimAndShot : MonoBehaviour
 
 	void ShootAt(Vector3 target)
 	{
-		//Vector3 screenPos = crosshairUI.position;
-		//Ray ray = mainCamera.ScreenPointToRay(screenPos);
-		//Vector3 targetPos;
-		//
-		//if (Physics.Raycast(ray, out RaycastHit hit, 1000f))
-		//	targetPos = hit.point;
-		//else
-		//	targetPos = ray.origin + ray.direction * 1000f;
+
 		//弾を生成
 		GameObject b = Instantiate(
 			bulletPrefab, 
