@@ -81,13 +81,17 @@ public class AimAndShot : MonoBehaviour
 
 	void ShootAt(Vector3 target)
 	{
-
+		Transform parent = null;
+		if(WorldScrollManager.Instance != null)
+		{
+			parent = WorldScrollManager.Instance.transform;
+		}
 		//弾を生成
 		GameObject b = Instantiate(
 			bulletPrefab, 
 			firePoint.position,
 			firePoint.rotation,
-			WorldScrollManager.Instance.transform
+		parent
 			);
 
 		Rigidbody rb = b.GetComponent<Rigidbody>();
@@ -104,6 +108,11 @@ public class AimAndShot : MonoBehaviour
 	}
 	void ShootAtEx(Vector3 target)
 	{
+		Transform parent = null;
+		if (WorldScrollManager.Instance != null)
+		{
+			parent = WorldScrollManager.Instance.transform;
+		}
 		//Vector3 screenPos = crosshairUI.position;
 		//Ray ray = mainCamera.ScreenPointToRay(screenPos);
 		//Vector3 targetPos;
@@ -116,7 +125,7 @@ public class AimAndShot : MonoBehaviour
 		GameObject b = Instantiate(bulustPrefab, 
 			firePoint.position, 
 			firePoint.rotation,
-			WorldScrollManager.Instance.transform);
+			parent);
 
 		Rigidbody rb = b.GetComponent<Rigidbody>();
 		if (rb != null)

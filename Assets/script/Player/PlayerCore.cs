@@ -1,6 +1,13 @@
 using System;
 using UnityEngine;
 
+public enum PlayerForm
+{
+	Plane,
+	Human
+
+}
+
 public class PlayerCore : MonoBehaviour
 {
 	//ヒットポイント
@@ -29,12 +36,7 @@ public class PlayerCore : MonoBehaviour
 	[SerializeField] private GameObject planeForm;
 	[SerializeField] private GameObject humanForm;
 
-	public enum PlayerForm
-	{
-		Plane,
-		Human
-			
-	}
+
 
 	public PlayerForm CurrentForm { get; private set; } = PlayerForm.Plane;
 	// ===== イベント =====
