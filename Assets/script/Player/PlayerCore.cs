@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public enum PlayerForm
@@ -7,6 +8,8 @@ public enum PlayerForm
 	Human
 
 }
+
+
 
 public class PlayerCore : MonoBehaviour
 {
@@ -33,8 +36,10 @@ public class PlayerCore : MonoBehaviour
 	[SerializeField] private CrossHair crossHair;
 	public CrossHair CrossHair => crossHair;
 	[Header("Forms")]
-	[SerializeField] private GameObject planeForm;
-	[SerializeField] private GameObject humanForm;
+	[SerializeField] public GameObject planeForm;
+	[SerializeField] public GameObject humanForm;
+	[Header("Transform")]
+	public bool isTransforming { get; private set; }
 
 
 
@@ -47,14 +52,15 @@ public class PlayerCore : MonoBehaviour
 	public event Action OnPlayerDead;
 	public event Action<PlayerForm> OnFormChanged;
 
-	void Start()
-	{
-		SwitchForm(PlayerForm.Plane);
-	}
-
+//	void Start()
+//	{
+//		
+//	}
+//
 	void Awake()
 	{
 		currentHP = maxHP;
+		SwitchForm(PlayerForm.Plane);
 	}
 
 	void Update()
@@ -164,19 +170,38 @@ public class PlayerCore : MonoBehaviour
 	//
 	public void ToggleForm()
 	{
-		if (CurrentForm == PlayerForm.Plane)
-			SwitchForm(PlayerForm.Human);
-		else
-			SwitchForm(PlayerForm.Plane);
+		if (isTransforming) return;
+
+		PlayerForm next =
+			CurrentForm == PlayerForm.Plane
+			? PlayerForm.Human
+			: PlayerForm.Plane;
+
+		StartCoroutine(TransformRoutine(next));
 	}
 	//
-	void SwitchForm(PlayerForm from)
+	public void SwitchForm(PlayerForm form)
 	{
-		CurrentForm = from;
+		CurrentForm = form;
 
-		planeForm.SetActive(from == PlayerForm.Plane);
-		humanForm.SetActive(from == PlayerForm.Human);
+		planeForm.SetActive(form == PlayerForm.Plane);
+		humanForm.SetActive(form == PlayerForm.Human);
 
-		OnFormChanged?.Invoke(from);
+		OnFormChanged?.Invoke(form);
 	}
+	IEnumerator TransformRoutine(PlayerForm nextForm)
+	{
+		isTransforming = true;
+
+		// ★ここで将来アニメを再生する
+		// animator.SetTrigger("Transform");
+
+		// 仮：変形時間
+		yield return new WaitForSeconds(0.5f);
+
+		SwitchForm(nextForm);
+
+		isTransforming = false;
+	}
+
 }

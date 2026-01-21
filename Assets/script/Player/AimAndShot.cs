@@ -9,7 +9,9 @@ public class AimAndShot : MonoBehaviour
 	public GameObject bulustPrefab;
 	public Transform firePoint; //発射位置
 	public Camera mainCamera;              // メインカメラ
-	public PlayerCore core;
+	//public PlayerCore core;
+	[SerializeField] private PlayerCore core;
+	private RectTransform crosshairUI;
 	public enum AimMode
 	{
 		Plane,
@@ -31,9 +33,18 @@ public class AimAndShot : MonoBehaviour
 			bulletParent = WorldScrollManager.Instance.transform;
 		}
 		}
+	void Awake()
+	{
+		if (core == null)
+			core = GetComponentInParent<PlayerCore>();
+
+		if (core != null)
+			crosshairUI = core.CrossHair.crosshairRect;
+	}
 
 	void Update()
 	{
+		if (core.isTransforming) return;
 		if (mainCamera == null || shipTransform == null || core.CrossHair == null) return;
 		//スクリーン座標に変換
 		Vector3 screenPos =  core.CrossHair.ScreenPosition;
