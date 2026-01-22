@@ -9,6 +9,13 @@ public enum PlayerForm
 
 }
 
+public enum PlayerState
+{
+	Plane,
+	Human,
+	Transforming,
+	Dead
+}
 
 
 public class PlayerCore : MonoBehaviour
@@ -74,10 +81,7 @@ public class PlayerCore : MonoBehaviour
 				isInvincible = false;
 			}
 		}
-		if (Input.GetKeyDown(KeyCode.LeftShift))
-		{
-			ToggleForm();
-		}
+
 	}
 
 	// ===== HP =====
@@ -182,12 +186,8 @@ public class PlayerCore : MonoBehaviour
 	//
 	public void SwitchForm(PlayerForm form)
 	{
-		CurrentForm = form;
-
-		planeForm.SetActive(form == PlayerForm.Plane);
-		humanForm.SetActive(form == PlayerForm.Human);
-
-		OnFormChanged?.Invoke(form);
+		if (isTransforming) return;
+		StartCoroutine(FormChangeRoutine(form));
 	}
 	IEnumerator TransformRoutine(PlayerForm nextForm)
 	{
@@ -204,4 +204,23 @@ public class PlayerCore : MonoBehaviour
 		isTransforming = false;
 	}
 
+	IEnumerator FormChangeRoutine(PlayerForm next)
+	{
+		isTransforming = true;
+
+		// 入力ロック（移動のみ許可したいなら別フラグにする）
+		planeForm.SetActive(false);
+		humanForm.SetActive(false);
+
+		// 仮：アニメ待ち
+		yield return new WaitForSeconds(0.5f);
+
+		planeForm.SetActive(next == PlayerForm.Plane);
+		humanForm.SetActive(next == PlayerForm.Human);
+
+		CurrentForm = next;
+		OnFormChanged?.Invoke(next);
+
+		isTransforming = false;
+	}
 }

@@ -1,10 +1,14 @@
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class BossHumanMove : MonoBehaviour
 {
+	[Header("Move")]
 	[SerializeField] float speed = 8f;
 	[SerializeField] float verticalSpeed = 6f;
-	[SerializeField] Vector2 limit = new Vector2(6f, 4f);
+	//[Header("Limit")]
+	//[SerializeField] float minY = -3f;
+	//[SerializeField] float maxY = 5f;
 
 	Rigidbody rb;
 	private PlayerCore core;
@@ -12,30 +16,24 @@ public class BossHumanMove : MonoBehaviour
 	void Awake()
 	{
 		core = GetComponentInParent<PlayerCore>();
-		rb = GetComponent<Rigidbody>();
+		rb = GetComponentInParent<Rigidbody>();
+
+
 		rb.useGravity = false;
 		rb.constraints = RigidbodyConstraints.FreezeRotation;
 	}
 
-	void FixedUpdate()
+
+	public void HandleInput()
 	{
-		if (core.isTransforming)
-		{
-			float x = Input.GetAxis("Horizontal");
-			float y = Input.GetAxis("Vertical");
-			float up = 0f;
+		float x = Input.GetAxis("Horizontal");
+		float y = Input.GetAxis("Vertical");
+		float z = 0f;
 
-			if (Input.GetKey(KeyCode.Q)) up = 1f;
-			if (Input.GetKey(KeyCode.E)) up = -1f;
+			if(Input.GetKey(KeyCode.Q)) z = 1f;
+		if (Input.GetKey(KeyCode.E)) z = -1f;
 
-			Vector3 move = new Vector3(x, up, y) * speed * Time.fixedDeltaTime;
-			Vector3 next = rb.position + move;
-
-			Vector3 camPos = Camera.main.transform.position;
-			next.x = Mathf.Clamp(next.x, camPos.x - limit.x, camPos.x + limit.x);
-			next.y = Mathf.Clamp(next.y, camPos.y - limit.y, camPos.y + limit.y);
-
-			rb.MovePosition(next);
-		}
+		Vector3 move = new Vector3(x, y, z);
+		rb.MovePosition(rb.position + move * speed * Time.deltaTime);
 	}
 }

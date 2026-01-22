@@ -251,7 +251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3818dae271a167b40a6e66a544cef8f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1461622550}
+  player: {fileID: 1645627393}
   hpFill: {fileID: 1258589029}
   bombFill: {fileID: 2128871809}
   lifeText: {fileID: 1299175980}
@@ -991,7 +991,7 @@ MonoBehaviour:
   bulustPrefab: {fileID: 986726961894824201, guid: 43ffcf35317085b40be06c84b6423adb, type: 3}
   firePoint: {fileID: 1413546405}
   mainCamera: {fileID: 2141029930}
-  core: {fileID: 1461622550}
+  core: {fileID: 0}
   turnSpeed: 2
   bulletParent: {fileID: 0}
 --- !u!114 &1065212299
@@ -1186,7 +1186,7 @@ MonoBehaviour:
   bulustPrefab: {fileID: 986726961894824201, guid: 43ffcf35317085b40be06c84b6423adb, type: 3}
   firePoint: {fileID: 1870940214}
   mainCamera: {fileID: 2141029930}
-  core: {fileID: 1461622550}
+  core: {fileID: 0}
   turnSpeed: 2
   bulletParent: {fileID: 0}
 --- !u!114 &1266061551
@@ -1419,74 +1419,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1065212297}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1461622548
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1461622549}
-  - component: {fileID: 1461622550}
-  - component: {fileID: 1461622551}
-  m_Layer: 0
-  m_Name: PlayerCore
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1461622549
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1461622548}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1645627392}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1461622550
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1461622548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 645f0f3b2d223ed4a8f56878e8b99e63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHP: 100
-  currentHP: 0
-  life: 3
-  bombGauge: 0
-  bombMax: 100
-  isInvincible: 0
-  score: 0
-  crossHair: {fileID: 948449219}
-  planeForm: {fileID: 1065212296}
-  humanForm: {fileID: 1266061548}
---- !u!114 &1461622551
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1461622548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73d9059ebebdba045a9e5135d40a0357, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 10
 --- !u!1 &1645627389
 GameObject:
   m_ObjectHideFlags: 0
@@ -1496,6 +1428,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1645627392}
+  - component: {fileID: 1645627393}
   m_Layer: 0
   m_Name: PlayerBossRoot
   m_TagString: Untagged
@@ -1516,12 +1449,33 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1461622549}
   - {fileID: 446083476}
   - {fileID: 1266061549}
   - {fileID: 1065212297}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1645627393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645627389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 645f0f3b2d223ed4a8f56878e8b99e63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 100
+  currentHP: 0
+  life: 3
+  bombGauge: 0
+  bombMax: 100
+  isInvincible: 0
+  score: 0
+  crossHair: {fileID: 948449219}
+  planeForm: {fileID: 1065212296}
+  humanForm: {fileID: 1266061548}
 --- !u!1 &1870940213
 GameObject:
   m_ObjectHideFlags: 0
