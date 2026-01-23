@@ -497,6 +497,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 446083476}
+  - component: {fileID: 446083477}
   m_Layer: 0
   m_Name: PlayerStateMachine
   m_TagString: Untagged
@@ -519,6 +520,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1645627392}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &446083477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446083475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 273f58e6e7c1cba40891161390ffeb71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  core: {fileID: 1645627393}
+  planeMove: {fileID: 1065212299}
+  humanMove: {fileID: 1266061551}
+  planeObject: {fileID: 0}
+  humanObject: {fileID: 0}
+  planeCamera: {fileID: 2141029932}
+  humanCamera: {fileID: 2141029933}
 --- !u!1 &534073360
 GameObject:
   m_ObjectHideFlags: 0
@@ -948,7 +968,6 @@ GameObject:
   - component: {fileID: 1065212298}
   - component: {fileID: 1065212299}
   - component: {fileID: 1065212301}
-  - component: {fileID: 1065212300}
   m_Layer: 0
   m_Name: PlaneForm_Boss
   m_TagString: Untagged
@@ -991,7 +1010,7 @@ MonoBehaviour:
   bulustPrefab: {fileID: 986726961894824201, guid: 43ffcf35317085b40be06c84b6423adb, type: 3}
   firePoint: {fileID: 1413546405}
   mainCamera: {fileID: 2141029930}
-  core: {fileID: 0}
+  core: {fileID: 1645627393}
   turnSpeed: 2
   bulletParent: {fileID: 0}
 --- !u!114 &1065212299
@@ -1008,33 +1027,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   limit: {x: 8, y: 5}
---- !u!54 &1065212300
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1065212296}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!65 &1065212301
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1142,7 +1134,6 @@ GameObject:
   - component: {fileID: 1266061549}
   - component: {fileID: 1266061550}
   - component: {fileID: 1266061551}
-  - component: {fileID: 1266061553}
   - component: {fileID: 1266061552}
   m_Layer: 0
   m_Name: HumanForm_Boss
@@ -1186,7 +1177,7 @@ MonoBehaviour:
   bulustPrefab: {fileID: 986726961894824201, guid: 43ffcf35317085b40be06c84b6423adb, type: 3}
   firePoint: {fileID: 1870940214}
   mainCamera: {fileID: 2141029930}
-  core: {fileID: 0}
+  core: {fileID: 1645627393}
   turnSpeed: 2
   bulletParent: {fileID: 0}
 --- !u!114 &1266061551
@@ -1203,7 +1194,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 8
   verticalSpeed: 6
-  limit: {x: 6, y: 4}
 --- !u!65 &1266061552
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1225,33 +1215,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &1266061553
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1266061548}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &1299175978
 GameObject:
   m_ObjectHideFlags: 0
@@ -1429,6 +1392,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1645627392}
   - component: {fileID: 1645627393}
+  - component: {fileID: 1645627394}
   m_Layer: 0
   m_Name: PlayerBossRoot
   m_TagString: Untagged
@@ -1476,6 +1440,33 @@ MonoBehaviour:
   crossHair: {fileID: 948449219}
   planeForm: {fileID: 1065212296}
   humanForm: {fileID: 1266061548}
+--- !u!54 &1645627394
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645627389}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1870940213
 GameObject:
   m_ObjectHideFlags: 0
@@ -1593,6 +1584,9 @@ GameObject:
   - component: {fileID: 2141029931}
   - component: {fileID: 2141029930}
   - component: {fileID: 2141029929}
+  - component: {fileID: 2141029934}
+  - component: {fileID: 2141029933}
+  - component: {fileID: 2141029932}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1674,6 +1668,84 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2141029932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2141029928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14c86b13af927a240a27b7a9ab7f48c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerRoot: {fileID: 1065212297}
+  planeModel: {fileID: 1065212297}
+  offset: {x: 0, y: 3, z: -10}
+  positionSmooth: 5
+  rotationSmooth: 5
+--- !u!114 &2141029933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2141029928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 679e3c9a48960c54a9e6d504265d100e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerRoot: {fileID: 1645627392}
+  humanModel: {fileID: 1266061549}
+  offset: {x: 0, y: 2.5, z: -6}
+  positionSmooth: 6
+  rotationSmooth: 6
+--- !u!114 &2141029934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2141029928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

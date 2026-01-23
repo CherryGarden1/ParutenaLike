@@ -191,17 +191,14 @@ public class PlayerCore : MonoBehaviour
 	}
 	IEnumerator TransformRoutine(PlayerForm nextForm)
 	{
-		isTransforming = true;
+		// 変形演出...
+		yield return new WaitForSeconds(0.3f);
 
-		// ★ここで将来アニメを再生する
-		// animator.SetTrigger("Transform");
-
-		// 仮：変形時間
-		yield return new WaitForSeconds(0.5f);
-
-		SwitchForm(nextForm);
-
+		CurrentForm = nextForm;
 		isTransforming = false;
+
+		// 変形が終わったら StateMachine に通知する
+		GetComponentInChildren<PlayerStateMachine>().FinishTransform();
 	}
 
 	IEnumerator FormChangeRoutine(PlayerForm next)

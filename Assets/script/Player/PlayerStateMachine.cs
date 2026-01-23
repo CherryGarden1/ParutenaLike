@@ -7,7 +7,9 @@ public class PlayerStateMachine : MonoBehaviour
 	[SerializeField] PlayerCore core;
 	[SerializeField] BossPlaneMove planeMove;
 	[SerializeField] BossHumanMove humanMove;
-	[SerializeField] BossCameraFollow planeCamera;
+	[SerializeField] GameObject planeObject; // PlaneFormBoss
+	[SerializeField] GameObject humanObject; // HumanForm_Boss
+	[SerializeField] BossCameraPlaneFollow planeCamera;
 	[SerializeField] BossHumanCamera humanCamera;
 	public PlayerState CurrentState { get; private set; }
 
@@ -18,8 +20,8 @@ public class PlayerStateMachine : MonoBehaviour
 		if (core == null)
 			core = GetComponentInParent<PlayerCore>();
 
-		if (core == null)
-			Debug.LogError($"{name}: PlayerCore not found");
+		//if (core == null)
+		//	Debug.LogError($"{name}: PlayerCore not found");
 	}
 
 	void Start()
@@ -29,8 +31,8 @@ public class PlayerStateMachine : MonoBehaviour
 
 	void Update()
 	{
-		Debug.Log("Update running");
-		Debug.Log("CurrentState = " + CurrentState);
+		//Debug.Log("Update running");
+		//Debug.Log("CurrentState = " + CurrentState);
 		HandleInput();
 	}
 
@@ -72,11 +74,12 @@ public class PlayerStateMachine : MonoBehaviour
 		core.ToggleForm();
 
 		// アニメが無い仮実装（0.3秒後に完了）
-		Invoke(nameof(FinishTransform), 0.3f);
+		//Invoke(nameof(FinishTransform), 0.3f);
 	}
 
-	void FinishTransform()
+	public void FinishTransform()
 	{
+		Debug.Log("FinishTransform called from Core");
 		SwitchState(
 			core.CurrentForm == PlayerForm.Plane
 			? PlayerState.Plane
@@ -88,11 +91,17 @@ public class PlayerStateMachine : MonoBehaviour
 	{
 		CurrentState = next;
 
-		// Move の有効無効
+		// 1. まずオブジェクト自体のActiveを切り替える
+		if (planeObject != null) planeObject.SetActive(next == PlayerState.Plane);
+		if (humanObject != null) humanObject.SetActive(next == PlayerState.Human);
+
+		// 2. その上でスクリプトの有効化（ここは今のままでもOK）
 		planeMove.enabled = (next == PlayerState.Plane);
 		humanMove.enabled = (next == PlayerState.Human);
 
 		planeCamera.enabled = (next == PlayerState.Plane);
 		humanCamera.enabled = (next == PlayerState.Human);
+
+		Debug.Log($"Object Switched: Plane={planeObject.activeSelf}, Human={humanObject.activeSelf}");
 	}
 }
