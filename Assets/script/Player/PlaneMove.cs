@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlaneMove : MonoBehaviour
+public class PlayerMove : MonoBehaviour
 {
 
 	[SerializeField] private float speed = 10f;
@@ -14,14 +14,14 @@ public class PlaneMove : MonoBehaviour
 
 	void Start()
 	{
-		rb = GetComponent<Rigidbody>();
+		rb = GetComponentInParent<Rigidbody>();
 		rb.useGravity = false;
 		rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
 	}
 
 	public void HandleInput(Vector2 input)
 	{
-		
+		//“ü—Í
 		Vector3 movement = new Vector3(input.x, input.y, 0f).normalized * speed * Time.fixedDeltaTime;
 		Vector3 nextPos = rb.position + movement;
 
@@ -31,13 +31,11 @@ public class PlaneMove : MonoBehaviour
 		nextPos = Camera.main.transform.TransformPoint(localPos);
 
 		rb.MovePosition(nextPos);
-		Debug.Log("PlayerMove HandleInput");
-
 	}
 
 	void FixedUpdate()
 	{
-		
+		//ˆÚ“®
 		currentVelocity = (transform.position - lastPosition) / Time.fixedDeltaTime;
 		lastPosition = transform.position;
 	}

@@ -18,7 +18,7 @@ public class EnemyGenerate : MonoBehaviour
 	private void OnTriggerEnter(Collider other)
 	{
 		Debug.Log($"Trigger entered by: {other.name}");
-		Transform Player = GameObject.Find("playerTest").transform;
+		Transform Player = GameObject.Find("PlayerNomalRoot").transform;
 		if (other.CompareTag("Player"))
 		{
 

@@ -193,31 +193,54 @@ public class PlayerCore : MonoBehaviour
 	{
 		// 変形演出...
 		yield return new WaitForSeconds(0.3f);
-
+	
 		CurrentForm = nextForm;
 		isTransforming = false;
-
+	
 		// 変形が終わったら StateMachine に通知する
-		GetComponentInChildren<PlayerStateMachine>().FinishTransform();
+		//GetComponentInChildren<PlayerStateMachine>().FinishTransform();
 	}
 
-	IEnumerator FormChangeRoutine(PlayerForm next)
+	IEnumerator FormChangeRoutine(PlayerForm nextForm)
 	{
-		isTransforming = true;
+		isTransforming = true; // 最初に必ずロック
+		Debug.Log($"Transform Start: {nextForm}");
 
-		// 入力ロック（移動のみ許可したいなら別フラグにする）
+		// 演出中：一旦両方消す（必要なら）
 		planeForm.SetActive(false);
 		humanForm.SetActive(false);
 
-		// 仮：アニメ待ち
-		yield return new WaitForSeconds(0.5f);
+		// 変形演出の待機
+		yield return new WaitForSeconds(0.3f);
 
-		planeForm.SetActive(next == PlayerForm.Plane);
-		humanForm.SetActive(next == PlayerForm.Human);
+		// データの更新
+		CurrentForm = nextForm;
 
-		CurrentForm = next;
-		OnFormChanged?.Invoke(next);
+		// 【重要】見た目のアクティブ化
+		planeForm.SetActive(nextForm == PlayerForm.Plane);
+		humanForm.SetActive(nextForm == PlayerForm.Human);
+
+		isTransforming = false; // ロック解除
+		Debug.Log("Transform End");
+
+		// StateMachineに通知
+		//GetComponentInChildren<PlayerStateMachine>().FinishTransform();
+	}
+	public void SetForm(PlayerForm nextForm)
+	{
+		isTransforming = true;
+
+		// 見た目OFF
+		planeForm.SetActive(false);
+		humanForm.SetActive(false);
+
+		CurrentForm = nextForm;
+
+		// 見た目ON
+		planeForm.SetActive(nextForm == PlayerForm.Plane);
+		humanForm.SetActive(nextForm == PlayerForm.Human);
 
 		isTransforming = false;
+		OnFormChanged?.Invoke(nextForm);
 	}
 }
