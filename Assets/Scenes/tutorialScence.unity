@@ -662,7 +662,7 @@ PrefabInstance:
     - target: {fileID: 3914376343559907492, guid: e6fe5ffa15ecbee44a339c4734e6fd6e, type: 3}
       propertyPath: Player
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1553354652}
     - target: {fileID: 5851573266602398381, guid: e6fe5ffa15ecbee44a339c4734e6fd6e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -130.5
@@ -1168,10 +1168,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   core: {fileID: 1553354654}
-  planeMove: {fileID: 652790384}
-  planeCamera: {fileID: 330585547}
-  humanMove: {fileID: 1897889510}
-  humanCamera: {fileID: 330585547}
+  planeMove: {fileID: 0}
+  planeCamera: {fileID: 0}
+  humanMove: {fileID: 0}
+  humanCamera: {fileID: 0}
+  move: {fileID: 1553354656}
 --- !u!1 &1733096051
 GameObject:
   m_ObjectHideFlags: 0

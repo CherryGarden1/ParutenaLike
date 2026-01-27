@@ -19,7 +19,7 @@ public class TutorialEnemy : MonoBehaviour
 	private void Start()
 	{
 		// シーン上のプレイヤーを自動で取得
-		player = GameObject.Find("playerTest").transform;
+		player = GameObject.Find("PlayerNomalRoot").transform;
 		cam = Camera.main?.transform;
 
 		if (player != null)
