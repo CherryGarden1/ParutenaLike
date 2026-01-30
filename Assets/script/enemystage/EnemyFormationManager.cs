@@ -21,7 +21,7 @@ public void Init(EnemyFomationData fomationData)
     void CreateFormation()
     {
 
-        for(int r = 0; row < data.rows;r++)
+        for(int r = 0; r < data.rows;r++)
         {
 			for (int c = 0; c < data.cols; c++)
 			{
