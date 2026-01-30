@@ -14,7 +14,7 @@ public class PlaneMove : MonoBehaviour
 
 	void Start()
 	{
-		rb = GetComponent<Rigidbody>();
+		//rb = GetComponent<Rigidbody>();
 		rb.useGravity = false;
 		rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
 	}
