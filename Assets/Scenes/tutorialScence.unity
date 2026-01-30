@@ -238,7 +238,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 14.48, y: 2.3, z: 25.59}
+  m_LocalPosition: {x: 14.48, y: 10, z: 25.59}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -655,6 +655,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 625641597}
     m_Modifications:
+    - target: {fileID: 887459988375386053, guid: e6fe5ffa15ecbee44a339c4734e6fd6e, type: 3}
+      propertyPath: EnemyPrefabs.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 887459988375386053, guid: e6fe5ffa15ecbee44a339c4734e6fd6e, type: 3}
+      propertyPath: 'EnemyPrefabs.Array.data[2]'
+      value: 
+      objectReference: {fileID: 1046270818250376779, guid: cf7353581ad8202469708999735a5470, type: 3}
     - target: {fileID: 1694571446070824630, guid: e6fe5ffa15ecbee44a339c4734e6fd6e, type: 3}
       propertyPath: m_Name
       value: Stage
@@ -1132,7 +1140,7 @@ Transform:
   m_GameObject: {fileID: 1553354652}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.48, y: 2.3000002, z: 37.95}
+  m_LocalPosition: {x: 14.48, y: 10, z: 37.95}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1357,6 +1365,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TutrialEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 1561351367399282510, guid: cf7353581ad8202469708999735a5470, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1553354655}
     - target: {fileID: 7362658744216382626, guid: cf7353581ad8202469708999735a5470, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
