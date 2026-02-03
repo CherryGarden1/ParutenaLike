@@ -1,6 +1,9 @@
 using UnityEngine;
-[CreateAssetMenu(menuName ="Enemy/Formation Data")]
-public class EnemyFomationData: ScriptableObject
+[CreateAssetMenu(
+	fileName =	"WnwmyFomationData",
+	menuName ="Enemy/Formation Data"
+	)]
+public class EnemyFormationData: ScriptableObject
 {
 	[Header("Formation Shape")]
 	public int rows = 2;

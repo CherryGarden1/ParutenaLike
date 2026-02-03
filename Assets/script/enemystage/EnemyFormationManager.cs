@@ -2,10 +2,13 @@ using UnityEngine;
 
 public class EnemyFormationManager : MonoBehaviour
 {
-	EnemyFomationData data;
+	//プレハブに付ける！
+	
+
+	EnemyFormationData data;
 	float waveTimer;
 
-public void Init(EnemyFomationData fomationData)
+public void Init(EnemyFormationData fomationData)
 	{
 		data = fomationData;
 		CreateFormation();
