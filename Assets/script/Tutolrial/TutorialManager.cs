@@ -7,12 +7,12 @@ public class TutorialManager : MonoBehaviour
 	[SerializeField] TutorialUI ui;
 	[SerializeField] GameObject invincibleBoxPrefab;
 	TutorialStep current;
-
+	GameObject invincibleBox;
 	void Awake()
 	{
 		if (Instance != null && Instance != this)
 		{
-			Destroy(gameObject);
+			Destroy(gameObject );
 			return;
 		}
 		Instance = this;
@@ -48,25 +48,26 @@ public class TutorialManager : MonoBehaviour
 	}
 	public void CompleteCurrentStep()
 	{
-		switch (current)
+		TutorialStep next = current + 1;
+		if(next >= TutorialStep.Complete)
 		{
-			case TutorialStep.NormalShot:
-				StartStep(TutorialStep.PlaneZInvincible);
-				break;
-
-			case TutorialStep.PlaneZInvincible:
-				StartStep(TutorialStep.TransformChain);
-				break;
-
-			case TutorialStep.TransformChain:
-				StartStep(TutorialStep.Complete);
-				break;
+			StartStep(TutorialStep.Complete);
+		}
+		else
+		{
+			StartStep(next);
 		}
 	}
 
 	void SpawnInvincibleBox()
 	{
-		Instantiate(invincibleBoxPrefab);
+		if(invincibleBox != null)return;
+		invincibleBox = Instantiate(invincibleBoxPrefab);
 
+	}
+	void CleaInvicibleBox()
+	{
+		if (invincibleBox)
+			Destroy(invincibleBox);
 	}
 }
