@@ -15,7 +15,7 @@ MonoBehaviour:
   rows: 2
   cols: 3
   spacing: 5
-  enemyPrefab: {fileID: 0}
+  enemyPrefab: {fileID: 1046270818250376779, guid: cf7353581ad8202469708999735a5470, type: 3}
   moveSpeed: 10
   waveAmplitude: 2
   waveFrequency: 2
