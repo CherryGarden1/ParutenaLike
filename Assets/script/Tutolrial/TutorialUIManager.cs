@@ -9,7 +9,6 @@ public class TutorialUIManager : MonoBehaviour
 
 	void Start()
 	{
-		UpdateUI(tutorialManager.CompleteCurrentStep);
 		tutorialManager.OnStepChanged += UpdateUI;
 	}
 
@@ -24,4 +23,5 @@ public class TutorialUIManager : MonoBehaviour
 		highlightUI.Show(step);
 		arrowUI.Show(step);
 	}
+
 }

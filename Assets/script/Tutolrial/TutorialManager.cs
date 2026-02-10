@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class TutorialManager : MonoBehaviour
@@ -8,6 +9,7 @@ public class TutorialManager : MonoBehaviour
 	[SerializeField] GameObject invincibleBoxPrefab;
 	TutorialStep current;
 	GameObject invincibleBox;
+	public event Action<TutorialStep> OnStepChanged;
 	void Awake()
 	{
 		if (Instance != null && Instance != this)
@@ -25,7 +27,7 @@ public class TutorialManager : MonoBehaviour
 	void StartStep(TutorialStep step)
 	{
 		current = step;
-
+		OnStepChanged?.Invoke(step);
 		switch (step)
 		{
 			case TutorialStep.NormalShot:
@@ -70,4 +72,5 @@ public class TutorialManager : MonoBehaviour
 		if (invincibleBox)
 			Destroy(invincibleBox);
 	}
+
 }
