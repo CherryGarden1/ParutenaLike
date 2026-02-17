@@ -31,11 +31,12 @@ public class EnemyBase : MonoBehaviour
 	private void Die(bool isBlastDamage)
 	{
 		// ① まず爆発処理（エフェクト & BlastManager への通知）
-		Explode();
+		PlayExplosionEffect();
 
 		// ② Blast由来なら連鎖起動
 		if (isBlastDamage)
 		{
+			OnEnemyExploded?.Invoke(transform.position, this);
 			GetComponent<ChainExplosion>()?.StartChain();
 		}
 
@@ -46,23 +47,35 @@ public class EnemyBase : MonoBehaviour
 	// ------------------------------------
 	// 爆発処理（イベントも含む）
 	// ------------------------------------
-	private void Explode()
+	//private void Explode()
+	//{
+	//	if (ExplosionSphere)
+	//	{
+	//
+	//		GameObject fx = Instantiate(ExplosionSphere,
+	//			transform.position,
+	//			Quaternion.identity
+	//		);
+	//		//親を外す
+	//		fx.transform.SetParent(null);
+	//	}
+	//	
+	//
+	//	// 連鎖爆発マネージャーに通知
+	//	OnEnemyExploded?.Invoke(transform.position, this);
+	//	//オブジェクト破壊0.05s遅らせ
+	//	Destroy(gameObject,0.05f);
+	//}
+	private void PlayExplosionEffect()
 	{
 		if (ExplosionSphere)
 		{
-
-			GameObject fx = Instantiate(ExplosionSphere,
+			GameObject fx = Instantiate(
+				ExplosionSphere,
 				transform.position,
 				Quaternion.identity
 			);
-			//親を外す
 			fx.transform.SetParent(null);
 		}
-		
-
-		// 連鎖爆発マネージャーに通知
-		OnEnemyExploded?.Invoke(transform.position, this);
-		//オブジェクト破壊0.05s遅らせ
-		Destroy(gameObject,0.05f);
 	}
 }

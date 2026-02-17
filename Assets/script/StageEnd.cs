@@ -7,10 +7,6 @@ public class StageEnd : MonoBehaviour
 	public event System.Action NextStage;
 	private void OnTriggerEnter(Collider other)
 	{
-		// プレイヤーかどうかを確認
-		if (other.CompareTag("Player"))
-		{
-			NextStage?.Invoke();
-		}
+		Debug.Log("Hit:" + other.name);
 	}
 }
