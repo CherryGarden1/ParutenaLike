@@ -37,7 +37,6 @@ public class EnemyBase : MonoBehaviour
 		if (isBlastDamage)
 		{
 			OnEnemyExploded?.Invoke(transform.position, this);
-			GetComponent<ChainExplosion>()?.StartChain();
 		}
 
 		// ‡B ÅŒã‚É“G‚ğíœ

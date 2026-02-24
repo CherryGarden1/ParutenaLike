@@ -48,7 +48,7 @@ public class BlastManeger : MonoBehaviour
 
 			if (enemy != null && !exploded.Contains(enemy))
 			{
-				enemy.TakeDamage(chainDamage);
+				enemy.TakeDamage(chainDamage,true);
 
 				exploded.Add(enemy);
 				// ‚³‚ç‚ÉŸ‚Ì˜A½‚Ö

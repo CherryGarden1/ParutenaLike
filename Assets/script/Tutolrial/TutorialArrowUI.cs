@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class TutorialArrowUI : MonoBehaviour
 {
-	[SerializeField] GameObject zKeyIcon;
-	[SerializeField] GameObject shiftKeyIcon;
+	[SerializeField] GameObject zKeyIcon; //Zキーの画像
+	[SerializeField] GameObject shiftKeyIcon; //sihtの画像
 
 	public void Show(TutorialStep step)
 	{
 		zKeyIcon.SetActive(false);
 		shiftKeyIcon.SetActive(false);
-
+		//ステップ
 		switch (step)
 		{
 			case TutorialStep.PlaneZInvincible:

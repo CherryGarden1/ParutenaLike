@@ -47,6 +47,8 @@ public class PlayerCore : MonoBehaviour
 	[SerializeField] public GameObject humanForm;
 	[Header("Transform")]
 	public bool isTransforming { get; private set; }
+	//無敵のオブジェクト
+	[SerializeField] private GameObject invincibleEffect;
 
 
 
@@ -72,13 +74,22 @@ public class PlayerCore : MonoBehaviour
 
 	void Update()
 	{
+		if(Input.GetKeyUp(KeyCode.Z) && !isInvincible)
+		{
+			SetInvincible(3f);
+		}
 		// 無敵時間の管理
 		if (isInvincible)
 		{
 			invincibleTimer -= Time.deltaTime;
+
+			if (!invincibleEffect.activeSelf)
+				invincibleEffect.SetActive(true);
+
 			if (invincibleTimer <= 0f)
 			{
 				isInvincible = false;
+				invincibleEffect.SetActive(false);
 			}
 		}
 

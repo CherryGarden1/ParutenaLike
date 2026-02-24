@@ -1,76 +1,123 @@
 using System;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class TutorialManager : MonoBehaviour
 {
 	public static TutorialManager Instance;
 
+	[Header("UI")]
 	[SerializeField] TutorialUI ui;
+
+	[Header("Step Order (ステージごとにここを変更)")]
+	[SerializeField] TutorialStep[] steps;
+
+	[Header("Enemy Destroy Settings")]
+	[SerializeField] int requiredDestroyCount = 3;
+
+	[Header("Optional Objects")]
 	[SerializeField] GameObject invincibleBoxPrefab;
-	TutorialStep current;
-	GameObject invincibleBox;
+
 	public event Action<TutorialStep> OnStepChanged;
+
+	TutorialStep currentStep;
+	int currentIndex = 0;
+	int destroyCount = 0;
+
+	GameObject invincibleBox;
+
 	void Awake()
 	{
 		if (Instance != null && Instance != this)
 		{
-			Destroy(gameObject );
+			Destroy(gameObject);
 			return;
 		}
+
 		Instance = this;
+	}
+
+	void OnEnable()
+	{
+		Enemy.OnEnemyDestroyed += OnEnemyDestroyed;
+	}
+
+	void OnDisable()
+	{
+		Enemy.OnEnemyDestroyed -= OnEnemyDestroyed;
 	}
 
 	void Start()
 	{
-		StartStep(TutorialStep.NormalShot);
+		if (steps.Length == 0)
+		{
+			Debug.LogWarning("Tutorial steps not set.");
+			return;
+		}
+
+		StartStep(steps[currentIndex]);
 	}
+
 	void StartStep(TutorialStep step)
 	{
-		current = step;
-		OnStepChanged?.Invoke(step);
+		currentStep = step;
+		destroyCount = 0;
+
+		OnStepChanged?.Invoke(step);   // UI更新
+
 		switch (step)
 		{
-			case TutorialStep.NormalShot:
-				ui.Show("敵を撃破しよう");
-				break;
-
 			case TutorialStep.PlaneZInvincible:
-				ui.Show("Zキーで無敵を使おう");
 				SpawnInvincibleBox();
 				break;
 
-			case TutorialStep.TransformChain:
-				ui.Show("変形してZキーで一掃しよう");
-				break;
-
 			case TutorialStep.Complete:
+				Cleanup();
 				ui.Hide();
 				break;
 		}
 	}
+
 	public void CompleteCurrentStep()
 	{
-		TutorialStep next = current + 1;
-		if(next >= TutorialStep.Complete)
+		currentIndex++;
+
+		if (currentIndex >= steps.Length)
 		{
 			StartStep(TutorialStep.Complete);
 		}
 		else
 		{
-			StartStep(next);
+			StartStep(steps[currentIndex]);
+		}
+	}
+
+	void OnEnemyDestroyed()
+	{
+		// 撃破判定を使うステップだけ反応
+		if (currentStep != TutorialStep.NormalShot &&
+			currentStep != TutorialStep.TransformChain)
+			return;
+
+		destroyCount++;
+
+		if (destroyCount >= requiredDestroyCount)
+		{
+			CompleteCurrentStep();
 		}
 	}
 
 	void SpawnInvincibleBox()
 	{
-		if(invincibleBox != null)return;
-		invincibleBox = Instantiate(invincibleBoxPrefab);
+		if (invincibleBox != null || invincibleBoxPrefab == null)
+			return;
 
+		invincibleBox = Instantiate(invincibleBoxPrefab);
 	}
-	void CleaInvicibleBox()
+
+	void Cleanup()
 	{
-		if (invincibleBox)
+		if (invincibleBox != null)
 			Destroy(invincibleBox);
 	}
-
 }
