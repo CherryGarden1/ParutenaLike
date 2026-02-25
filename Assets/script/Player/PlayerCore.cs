@@ -95,7 +95,7 @@ public class PlayerCore : MonoBehaviour
 	void Update()
 	{
 		RechargeAbility();
-		if (Input.GetKeyUp(KeyCode.Z) && !isInvincible)
+		if (Input.GetKeyUp(KeyCode.Z))
 		{
 			HandleZInput();
 			//SetInvincible(3f);
@@ -116,9 +116,18 @@ public class PlayerCore : MonoBehaviour
 	//Humanèàóùóp
 	void TryUseBlast()
 	{
-		if (shooter == null) return;
-
-		if (!ConsumeAbility(bombAbilityCost)) return;
+		Debug.Log("TryUseBlast called");
+		if (shooter == null)
+		{
+			Debug.Log("Shooter is NULL");
+			return;
+		}
+		if (!ConsumeAbility(bombAbilityCost))
+		{
+			Debug.Log("Not enough ability");
+			return;
+		}
+		Debug.Log("Fire!");
 		shooter.ShootAtEx();
 	}
 
@@ -279,6 +288,11 @@ public class PlayerCore : MonoBehaviour
 		planeForm.SetActive(nextForm == PlayerForm.Plane);
 		humanForm.SetActive(nextForm == PlayerForm.Human);
 
+		if (nextForm == PlayerForm.Human)
+		{
+			shooter = humanForm.GetComponent<AimAndShot>();
+		}
+
 		isTransforming = false;
 		OnFormChanged?.Invoke(nextForm);
 	}
@@ -303,6 +317,7 @@ public class PlayerCore : MonoBehaviour
 
 	void HandleZInput()
 	{
+		
 		switch (CurrentForm)
 		{
 			case PlayerForm.Plane:

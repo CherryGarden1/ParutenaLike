@@ -11,7 +11,7 @@ public class PlayerHUD : MonoBehaviour
 	[SerializeField] private TMP_Text lifeText;
 	[SerializeField]private TMP_Text scoreText;
 	[SerializeField] private RectTransform crosshairUI;
-
+	public Image armorFill;
 	void Start()
 	{
 		player.OnAbilityGaugeChanged += UpdateAbility;
@@ -65,5 +65,9 @@ public class PlayerHUD : MonoBehaviour
 	void UpdateAbility(float current, float max)
 	{
 		abilityFill.fillAmount = current / max;
+	}
+	public void UpdateArmor(float current, float max)
+	{
+		armorFill.fillAmount = current / max;
 	}
 }
