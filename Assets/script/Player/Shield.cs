@@ -18,7 +18,7 @@ public class Shield : MonoBehaviour
 		{
 			invincible = true;
 			timer = invincibleDration;
-			gameObject.SetActive(true);
+			ShirldMesh.SetActive(true);
 		}
 		//–³“G’†
 		if (invincible)

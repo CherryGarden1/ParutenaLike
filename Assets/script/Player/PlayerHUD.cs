@@ -7,13 +7,14 @@ public class PlayerHUD : MonoBehaviour
 	[Header("Reference")]
 	[SerializeField] private PlayerCore player;
 	[SerializeField] private Image hpFill;
-	[SerializeField]private Image bombFill;
+	[SerializeField]private Image abilityFill;
 	[SerializeField] private TMP_Text lifeText;
 	[SerializeField]private TMP_Text scoreText;
 	[SerializeField] private RectTransform crosshairUI;
 
 	void Start()
 	{
+		player.OnAbilityGaugeChanged += UpdateAbility;
 		if(player == null)
 		{
 			Debug.LogError("PlayerCore is not assigned to PlayerHUD");
@@ -28,7 +29,7 @@ public class PlayerHUD : MonoBehaviour
 
 		// ƒCƒxƒ“ƒg“o˜^
 		player.OnHPChanged += UpdateHP;
-		player.OnBombChanged += UpdateBomb;
+		//player.OnBombChanged += UpdateBomb;
 		player.OnLifeChanged += UpdateLife;
 		player.OnScoreChanged += UpdateScore;
 	}
@@ -38,7 +39,7 @@ public class PlayerHUD : MonoBehaviour
 		if (player == null) return;
 
 		player.OnHPChanged -= UpdateHP;
-		player.OnBombChanged -= UpdateBomb;
+		//player.OnBombChanged -= UpdateBomb;
 		player.OnLifeChanged -= UpdateLife;
 		player.OnScoreChanged -= UpdateScore;
 	}
@@ -49,7 +50,7 @@ public class PlayerHUD : MonoBehaviour
 	}
 	void UpdateBomb(float value)
 	{
-		bombFill.fillAmount = value / player.bombMax;
+		abilityFill.fillAmount = value / player.abilityMax;
 	}
 
 	void UpdateLife(int life)
@@ -60,5 +61,9 @@ public class PlayerHUD : MonoBehaviour
 	void UpdateScore(int score)
 	{
 		scoreText.text = score.ToString();
+	}
+	void UpdateAbility(float current, float max)
+	{
+		abilityFill.fillAmount = current / max;
 	}
 }

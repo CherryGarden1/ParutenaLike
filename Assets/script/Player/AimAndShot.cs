@@ -3,152 +3,115 @@ using UnityEngine;
 public class AimAndShot : MonoBehaviour
 {
 	[Header("References")]
-	public Transform shipTransform; //自機
-	public RectTransform crossHair;      // UI上のクロスヘア
-	public GameObject bulletPrefab; //弾素材
+	public Transform shipTransform;
+	public GameObject bulletPrefab;
 	public GameObject bulustPrefab;
-	public Transform firePoint; //発射位置
-	public Camera mainCamera;              // メインカメラ
-	//public PlayerCore core;
+	public Transform firePoint;
+	public Camera mainCamera;
+
 	[SerializeField] private PlayerCore core;
-	private RectTransform crosshairUI;
-	public enum AimMode
-	{
-		Plane,
-		Human
-	}
 
 	[Header("Settings")]
-	public float turnSpeed = 2f;  //振り向き速度
+	public float turnSpeed = 2f;
+	public float bulletSpeed = 100f;
 
-	[Header("Spawn Parent")]
-	[SerializeField] private Transform bulletParent;
 	void Start()
-		{
-		if(mainCamera == null)
+	{
+		if (mainCamera == null)
 			mainCamera = Camera.main;
-		//親が未設定ならWorldScloolManagerを探す
-		if(bulletParent == null && WorldScrollManager.Instance != null)
-		{
-			bulletParent = WorldScrollManager.Instance.transform;
-		}
-		}
+	}
+
 	void Awake()
 	{
 		if (core == null)
 			core = GetComponentInParent<PlayerCore>();
-
-		if (core != null)
-			crosshairUI = core.CrossHair.crosshairRect;
 	}
 
 	void Update()
 	{
-		if (core.isTransforming) return;
-		if (mainCamera == null || shipTransform == null || core.CrossHair == null) return;
-		//スクリーン座標に変換
-		Vector3 screenPos =  core.CrossHair.ScreenPosition;
+		if (core == null || core.isTransforming) return;
 
-		// === スクリーン座標 → レイ ===
+		Vector3 target = GetCurrentTargetPosition();
+
+		RotateToTarget(target);
+
+		if (Input.GetMouseButtonDown(0))
+		{
+			ShootNormal();
+		}
+	}
+
+	// ==============================
+	// ▼ 外部から呼ぶのはこれだけ
+	// ==============================
+
+	public void ShootAtEx()
+	{
+		SpawnBullet(bulustPrefab);
+	}
+
+	// ==============================
+	// ▼ 通常射撃
+	// ==============================
+
+	void ShootNormal()
+	{
+		SpawnBullet(bulletPrefab);
+	}
+
+	// ==============================
+	// ▼ 弾生成共通処理
+	// ==============================
+
+	void SpawnBullet(GameObject prefab)
+	{
+		if (prefab == null) return;
+
+		Vector3 target = GetCurrentTargetPosition();
+
+		Transform parent = WorldScrollManager.Instance != null
+			? WorldScrollManager.Instance.transform
+			: null;
+
+		GameObject b = Instantiate(prefab, firePoint.position, firePoint.rotation, parent);
+
+		Rigidbody rb = b.GetComponent<Rigidbody>();
+		if (rb != null)
+		{
+			rb.useGravity = false;
+
+			Vector3 velocityDir = (target - firePoint.position).normalized;
+			rb.linearVelocity = velocityDir * bulletSpeed;
+		}
+	}
+
+	// ==============================
+	// ▼ 照準計算
+	// ==============================
+
+	Vector3 GetCurrentTargetPosition()
+	{
+		if (mainCamera == null || core.CrossHair == null)
+			return firePoint.position + firePoint.forward * 1000f;
+
+		Vector3 screenPos = core.CrossHair.ScreenPosition;
 		Ray ray = mainCamera.ScreenPointToRay(screenPos);
-		//ヒット判定
-		Vector3 targetPos;
-		// レイキャストでヒットを確認（敵や地形があるならそこをターゲットにする）
-		if (Physics.Raycast(ray, out RaycastHit hit, 1000f))
-		{
-			targetPos = hit.point;
-			//Debug.Log("Hit");
-		}
-		else
-		{
-			// ヒットしなければ一定距離先をターゲットにする
-			targetPos = ray.origin + ray.direction * 1000f;
-		}
 
-		// === 機体をターゲット方向に向ける ===
-		Vector3 dir = (targetPos - shipTransform.position).normalized;
+		if (Physics.Raycast(ray, out RaycastHit hit, 1000f))
+			return hit.point;
+		else
+			return ray.origin + ray.direction * 1000f;
+	}
+
+	void RotateToTarget(Vector3 target)
+	{
+		Vector3 dir = (target - shipTransform.position).normalized;
+
 		if (dir.sqrMagnitude > 0.001f)
 		{
 			Quaternion targetRot = Quaternion.LookRotation(dir);
-			//Y軸のみ回転
-			//Vector3 euler = targetRot.eulerAngles;
-			//shipTransform.rotation = Quaternion.Slerp(shipTransform.rotation,
-			//	Quaternion.Euler(shipTransform.eulerAngles.x, euler.y, shipTransform.eulerAngles.z),
-			//	 Time.deltaTime * turnSpeed);
-			shipTransform.rotation = Quaternion.Slerp(shipTransform.rotation, targetRot, Time.deltaTime * turnSpeed);
-		}
-
-		// === マウス左クリックで弾を発射 ===
-		if (Input.GetMouseButtonDown(0))
-		{
-			ShootAt(targetPos);
-		}
-		if (Input.GetKeyUp(KeyCode.Z))
-		{
-			ShootAtEx(targetPos);
-		}
-
-	}
-
-	void ShootAt(Vector3 target)
-	{
-		Transform parent = null;
-		if(WorldScrollManager.Instance != null)
-		{
-			parent = WorldScrollManager.Instance.transform;
-		}
-		//弾を生成
-		GameObject b = Instantiate(
-			bulletPrefab, 
-			firePoint.position,
-			firePoint.rotation,
-		parent
-			);
-
-		Rigidbody rb = b.GetComponent<Rigidbody>();
-		if (rb != null)
-		{
-			rb.useGravity = false; // 重力を無効化
-
-			//クロスヘアに向けて飛ばす
-			Vector3 velocityDir = (target - firePoint.position).normalized;
-
-			rb.linearVelocity = velocityDir * 100f;
-			//rb.linearVelocity = velocityDir * 200f;
-		}
-	}
-	void ShootAtEx(Vector3 target)
-	{
-		Transform parent = null;
-		if (WorldScrollManager.Instance != null)
-		{
-			parent = WorldScrollManager.Instance.transform;
-		}
-		//Vector3 screenPos = crosshairUI.position;
-		//Ray ray = mainCamera.ScreenPointToRay(screenPos);
-		//Vector3 targetPos;
-		//
-		//if (Physics.Raycast(ray, out RaycastHit hit, 1000f))
-		//	targetPos = hit.point;
-		//else
-		//	targetPos = ray.origin + ray.direction * 1000f;
-		//弾を生成
-		GameObject b = Instantiate(bulustPrefab, 
-			firePoint.position, 
-			firePoint.rotation,
-			parent);
-
-		Rigidbody rb = b.GetComponent<Rigidbody>();
-		if (rb != null)
-		{
-
-			rb.useGravity = false; // 重力を無効化
-
-			//クロスヘアに向けて飛ばす
-			Vector3 velocityDir = (target - firePoint.position).normalized;
-
-			rb.linearVelocity = velocityDir * 100f;
-			//rb.linearVelocity = velocityDir * 200f;
+			shipTransform.rotation =
+				Quaternion.Slerp(shipTransform.rotation, targetRot, Time.deltaTime * turnSpeed);
 		}
 	}
 }

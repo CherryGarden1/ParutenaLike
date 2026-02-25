@@ -20,35 +20,57 @@ public enum PlayerState
 
 public class PlayerCore : MonoBehaviour
 {
+	//=================
 	//ヒットポイント
+	//=================
 	[Header("HP")]
 	public int maxHP = 100;
 	public int currentHP;
+	//=================
 	//残機
+	//=================
 	[Header("Life")]
 	public int life = 3;
+	//=================
 	//ボム
+	//=================
 	[Header("Bomb")]
 	public float bombGauge = 0f;
 	public float bombMax = 100f;
+	[SerializeField] private float bombAbilityCost = 30f;
+	//=================
 	//無敵
+	//=================
 	[Header("Invincible")]
 	public bool isInvincible = false;
 	private float invincibleTimer;
+	[SerializeField]private float InvincibleAbilityCost = 30f;
+	//=================
 	//スコア
+	//=================
 	[Header("Score")]
 	public int score = 0;
 	//クロスヘア
 	[Header("HUD")]
 	[SerializeField] private CrossHair crossHair;
 	public CrossHair CrossHair => crossHair;
+	//=================
+	//形態
+	//=================
 	[Header("Forms")]
 	[SerializeField] public GameObject planeForm;
 	[SerializeField] public GameObject humanForm;
+	[SerializeField]private AimAndShot shooter;
 	[Header("Transform")]
 	public bool isTransforming { get; private set; }
 	//無敵のオブジェクト
 	[SerializeField] private GameObject invincibleEffect;
+	//Zキーの機能のUI
+	[Header("Z Ability Shared Gauge")]
+	public float abilityGauge = 0f;
+	public float abilityMax = 100f;
+	public float abilityChargeSpeed = 20f;
+
 
 
 
@@ -56,44 +78,51 @@ public class PlayerCore : MonoBehaviour
 	// ===== イベント =====
 	public event Action<int, int> OnHPChanged;
 	public event Action<int> OnLifeChanged;
-	public event Action<float> OnBombChanged;
+	
 	public event Action<int> OnScoreChanged;
 	public event Action OnPlayerDead;
 	public event Action<PlayerForm> OnFormChanged;
+	public event Action<float, float> OnAbilityGaugeChanged;
 
-//	void Start()
-//	{
-//		
-//	}
-//
+
 	void Awake()
 	{
 		currentHP = maxHP;
+		abilityGauge = abilityMax; // 最初は満タンでもOK
 		SwitchForm(PlayerForm.Plane);
 	}
 
 	void Update()
 	{
-		if(Input.GetKeyUp(KeyCode.Z) && !isInvincible)
+		RechargeAbility();
+		if (Input.GetKeyUp(KeyCode.Z) && !isInvincible)
 		{
-			SetInvincible(3f);
+			HandleZInput();
+			//SetInvincible(3f);
 		}
-		// 無敵時間の管理
-		if (isInvincible)
-		{
-			invincibleTimer -= Time.deltaTime;
-
-			if (!invincibleEffect.activeSelf)
-				invincibleEffect.SetActive(true);
-
-			if (invincibleTimer <= 0f)
-			{
-				isInvincible = false;
-				invincibleEffect.SetActive(false);
-			}
-		}
+		HandleInvincibleTimer();
 
 	}
+	//Plane処理用
+	void TryActivateInvincible()
+	{
+		if (isInvincible) return;
+
+		if (!ConsumeAbility(InvincibleAbilityCost)) return;
+
+		SetInvincible(3f);
+	}
+	
+	//Human処理用
+	void TryUseBlast()
+	{
+		if (shooter == null) return;
+
+		if (!ConsumeAbility(bombAbilityCost)) return;
+		shooter.ShootAtEx();
+	}
+
+
 
 	// ===== HP =====
 	public void TakeDamage(int damage)
@@ -130,16 +159,15 @@ public class PlayerCore : MonoBehaviour
 		if (bombGauge < value) return false;
 
 		bombGauge -= value;
-		OnBombChanged?.Invoke(bombGauge);
+	
 		return true;
 	}
 
 	public void AddBomb(float value)
 	{
 		bombGauge = Mathf.Min(bombGauge + value, bombMax);
-		OnBombChanged?.Invoke(bombGauge);
-	}
 
+	}
 	// ===== スコア =====
 	public void AddScore(int value)
 	{
@@ -204,10 +232,10 @@ public class PlayerCore : MonoBehaviour
 	{
 		// 変形演出...
 		yield return new WaitForSeconds(0.3f);
-	
+
 		CurrentForm = nextForm;
 		isTransforming = false;
-	
+
 		// 変形が終わったら StateMachine に通知する
 		//GetComponentInChildren<PlayerStateMachine>().FinishTransform();
 	}
@@ -254,4 +282,55 @@ public class PlayerCore : MonoBehaviour
 		isTransforming = false;
 		OnFormChanged?.Invoke(nextForm);
 	}
+
+	void HandleInvincibleTimer()
+	{
+		if (!isInvincible) return;
+
+		invincibleTimer -= Time.deltaTime;
+
+		if (!invincibleEffect.activeSelf)
+			invincibleEffect.SetActive(true);
+
+		if (invincibleTimer <= 0f)
+		{
+			isInvincible = false;
+			invincibleEffect.SetActive(false);
+		}
+	}
+
+	//形態変化したときのZキー昨日切り替え
+
+	void HandleZInput()
+	{
+		switch (CurrentForm)
+		{
+			case PlayerForm.Plane:
+				TryActivateInvincible();
+				break;
+
+			case PlayerForm.Human:
+				TryUseBlast();
+				break;
+		}
+	}
+	void RechargeAbility()
+	{
+		if (abilityGauge >= abilityMax) return;
+
+		abilityGauge += abilityChargeSpeed * Time.deltaTime;
+		abilityGauge = Mathf.Min(abilityGauge, abilityMax);
+
+		OnAbilityGaugeChanged?.Invoke(abilityGauge, abilityMax);
+	}
+
+	bool ConsumeAbility(float cost)
+	{
+		if (abilityGauge < cost) return false;
+
+		abilityGauge -= cost;
+		OnAbilityGaugeChanged?.Invoke(abilityGauge, abilityMax);
+		return true;
+	}
+
 }
