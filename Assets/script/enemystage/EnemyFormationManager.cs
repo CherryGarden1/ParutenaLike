@@ -1,4 +1,5 @@
 using UnityEngine;
+using static EnemyFormationData;
 
 public class EnemyFormationManager : MonoBehaviour
 {
@@ -20,8 +21,24 @@ public void Init(EnemyFormationData fomationData)
 		if(data == null)return;
         MoveFormation();
     }
+	void CreateFormation()
+	{
+		switch (data.formationType)
+		{
+			case FormationType.Grid:
+				CreateGrid();
+				break;
 
-    void CreateFormation()
+			//case FormationType.Circle:
+			//	CreateCircle();
+			//	break;
+
+			case FormationType.VShape:
+				CreateVShape();
+				break;
+		}
+	}
+	void CreateGrid()
     {
 
         for(int r = 0; r < data.rows;r++)
@@ -55,5 +72,24 @@ public void Init(EnemyFormationData fomationData)
 		float wave = Mathf.Sin(waveTimer) * data.waveAmplitude;
 
 		transform.position += Vector3.up * wave * Time.deltaTime;
+	}
+	void CreateVShape()
+	{
+		int count = data.cols;   // ‰¡‚Ì”‚ðŽg—p
+
+		for (int i = 0; i < count; i++)
+		{
+			float centerOffset = i - (count - 1) / 2f;
+
+			float x = centerOffset * data.spacing;
+			float y = -Mathf.Abs(centerOffset) * data.spacing * 0.5f;
+
+			Instantiate(
+				data.enemyPrefab,
+				transform.position + new Vector3(x, y, 0f),
+				Quaternion.identity,
+				transform
+			);
+		}
 	}
 }

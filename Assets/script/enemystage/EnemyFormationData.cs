@@ -5,6 +5,16 @@ using UnityEngine;
 	)]
 public class EnemyFormationData: ScriptableObject
 {
+	public enum FormationType
+	{
+		Grid,
+		VShape,
+		Line,
+		Circle
+	}
+
+	[Header("Formation Type")]
+	public FormationType formationType = FormationType.Grid;
 	[Header("Formation Shape")]
 	public int rows = 2;
 	public int cols = 3;

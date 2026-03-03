@@ -24,7 +24,7 @@ public class EnemyFormationSpawner : MonoBehaviour
 
 	void TestSpawn()
 	{
-		SpawnNext(transform.position);
+		SpawnNext(transform.position);//ŽŸ‚Ì•Ò‘à
 	}
 	public void SpawnNext(Vector3 position)
 	{
