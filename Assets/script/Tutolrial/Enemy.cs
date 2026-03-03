@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
 
 	public void Die()
 	{
+		Debug.Log("Die");
 		OnEnemyDestroyed?.Invoke();
 		Destroy(gameObject);
 	}

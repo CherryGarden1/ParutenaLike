@@ -54,6 +54,7 @@ public class PlayerCore : MonoBehaviour
 	[Header("HUD")]
 	[SerializeField] private CrossHair crossHair;
 	public CrossHair CrossHair => crossHair;
+	public PlayerHud HUD;
 	//=================
 	//形態
 	//=================
@@ -70,7 +71,7 @@ public class PlayerCore : MonoBehaviour
 	public float abilityGauge = 0f;
 	public float abilityMax = 100f;
 	public float abilityChargeSpeed = 20f;
-
+	
 
 
 
@@ -83,17 +84,28 @@ public class PlayerCore : MonoBehaviour
 	public event Action OnPlayerDead;
 	public event Action<PlayerForm> OnFormChanged;
 	public event Action<float, float> OnAbilityGaugeChanged;
+	public event Action OnInvisibleUsed;
 
 
 	void Awake()
 	{
 		currentHP = maxHP;
+		abilityGauge = abilityMax;
 		abilityGauge = abilityMax; // 最初は満タンでもOK
 		SwitchForm(PlayerForm.Plane);
+
+		HUD.UpdateHP(currentHP,maxHP);
+		HUD.UpdateAbility(abilityGauge, abilityMax);
 	}
 
 	void Update()
 	{
+		//お試しダメージ
+		if(Input.GetKeyDown(KeyCode.O))
+		{
+			Debug.Log("GetKeyDown");
+			TakeDamage(10);
+		}
 		RechargeAbility();
 		if (Input.GetKeyUp(KeyCode.Z))
 		{
@@ -116,7 +128,7 @@ public class PlayerCore : MonoBehaviour
 	//Human処理用
 	void TryUseBlast()
 	{
-		Debug.Log("TryUseBlast called");
+
 		if (shooter == null)
 		{
 			Debug.Log("Shooter is NULL");
@@ -127,15 +139,17 @@ public class PlayerCore : MonoBehaviour
 			Debug.Log("Not enough ability");
 			return;
 		}
-		Debug.Log("Fire!");
+		
 		shooter.ShootAtEx();
 	}
 
 
 
 	// ===== HP =====
+
 	public void TakeDamage(int damage)
 	{
+		Debug.Log("TakeDamage called");
 		if (isInvincible) return;
 
 		currentHP -= damage;
@@ -311,6 +325,7 @@ public class PlayerCore : MonoBehaviour
 			isInvincible = false;
 			invincibleEffect.SetActive(false);
 		}
+		OnInvisibleUsed?.Invoke();
 	}
 
 	//形態変化したときのZキー昨日切り替え

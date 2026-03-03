@@ -14,7 +14,7 @@ public class TutorialMessageUI : MonoBehaviour
 				break;
 
 			case TutorialStep.PlaneZInvincible:
-				messageText.text = "Zキーで特殊攻撃！\n無敵中だ！";
+				messageText.text = "Zキーで特殊行動！\nオーバードライブで無敵になれる！";
 				break;
 
 			case TutorialStep.TransformChain:

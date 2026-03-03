@@ -22,6 +22,7 @@ public class EnemyBase : MonoBehaviour
 		if (hp <= 0)
 		{
 			Die(isBlastDamage);
+			gameObject.AddComponent<Enemy>().Die();
 		}
 	}
 

@@ -1,73 +1,28 @@
+
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-
-public class PlayerHUD : MonoBehaviour
+public class PlayerHud : MonoBehaviour
 {
-	[Header("Reference")]
-	[SerializeField] private PlayerCore player;
-	[SerializeField] private Image hpFill;
-	[SerializeField]private Image abilityFill;
-	[SerializeField] private TMP_Text lifeText;
-	[SerializeField]private TMP_Text scoreText;
-	[SerializeField] private RectTransform crosshairUI;
-	public Image armorFill;
-	void Start()
+	public Image PowerFill;
+	public Image hpFill;
+	private PlayerCore player;
+
+	private void Start()
 	{
-		player.OnAbilityGaugeChanged += UpdateAbility;
-		if(player == null)
-		{
-			Debug.LogError("PlayerCore is not assigned to PlayerHUD");
-			return;
+		player = FindFirstObjectByType<PlayerCore>();
 
-		}
-		// èâä˙îΩâf
-		UpdateHP(player.currentHP, player.maxHP);
-		UpdateBomb(player.bombGauge);
-		UpdateLife(player.life);
-		UpdateScore(player.score);
-
-		// ÉCÉxÉìÉgìoò^
 		player.OnHPChanged += UpdateHP;
-		//player.OnBombChanged += UpdateBomb;
-		player.OnLifeChanged += UpdateLife;
-		player.OnScoreChanged += UpdateScore;
+		player.OnAbilityGaugeChanged += UpdateAbility;
+	}
+	public void UpdateHP(int current, int max)
+	{
+		float ratio = (float)current / max;
+		Debug.Log($"HP: {current}");
+		hpFill.fillAmount = ratio;
+	}
+	public void UpdateAbility(float current, float max)
+	{
+		PowerFill.fillAmount = current / max;
 	}
 
-	void OnDestroy()
-	{
-		if (player == null) return;
-
-		player.OnHPChanged -= UpdateHP;
-		//player.OnBombChanged -= UpdateBomb;
-		player.OnLifeChanged -= UpdateLife;
-		player.OnScoreChanged -= UpdateScore;
-	}
-
-	void UpdateHP(int current, int max)
-	{
-		hpFill.fillAmount = (float)current / max;
-	}
-	void UpdateBomb(float value)
-	{
-		abilityFill.fillAmount = value / player.abilityMax;
-	}
-
-	void UpdateLife(int life)
-	{
-		lifeText.text = $"x {life}";
-	}
-
-	void UpdateScore(int score)
-	{
-		scoreText.text = score.ToString();
-	}
-	void UpdateAbility(float current, float max)
-	{
-		abilityFill.fillAmount = current / max;
-	}
-	public void UpdateArmor(float current, float max)
-	{
-		armorFill.fillAmount = current / max;
-	}
 }

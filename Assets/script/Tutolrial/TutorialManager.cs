@@ -7,13 +7,16 @@ public class TutorialManager : MonoBehaviour
 	public static TutorialManager Instance;
 
 	[Header("UI")]
-	[SerializeField] TutorialUI ui;
+	[SerializeField] TutorialUIManager ui;
 
 	[Header("Step Order (ステージごとにここを変更)")]
 	[SerializeField] TutorialStep[] steps;
 
 	[Header("Enemy Destroy Settings")]
 	[SerializeField] int requiredDestroyCount = 3;
+
+	[Header("Invisible Count")]
+	[SerializeField]int invisibleUseCount = 0;
 
 	[Header("Optional Objects")]
 	[SerializeField] GameObject invincibleBoxPrefab;
@@ -25,9 +28,11 @@ public class TutorialManager : MonoBehaviour
 	int destroyCount = 0;
 
 	GameObject invincibleBox;
+	PlayerCore player;
 
 	void Awake()
 	{
+		
 		if (Instance != null && Instance != this)
 		{
 			Destroy(gameObject);
@@ -35,28 +40,44 @@ public class TutorialManager : MonoBehaviour
 		}
 
 		Instance = this;
+		player = FindFirstObjectByType<PlayerCore>();
+	}
+
+	void Start()
+	{
+		//player = FindFirstObjectByType<PlayerCore>();
+		if (steps.Length > 0)
+		{
+			StartStep(steps[currentIndex]);
+		}
+	}
+
+	void OnInvisibleUsed()
+	{
+		if (currentStep != TutorialStep.PlaneZInvincible)
+			return;
+
+		invisibleUseCount++;
+
+		if (invisibleUseCount >= 2)
+			CompleteCurrentStep();
 	}
 
 	void OnEnable()
 	{
 		Enemy.OnEnemyDestroyed += OnEnemyDestroyed;
+		if (player != null)
+			player.OnInvisibleUsed += OnInvisibleUsed;
 	}
 
 	void OnDisable()
 	{
 		Enemy.OnEnemyDestroyed -= OnEnemyDestroyed;
+		if (player != null)
+			player.OnInvisibleUsed -= OnInvisibleUsed;
 	}
 
-	void Start()
-	{
-		if (steps.Length == 0)
-		{
-			Debug.LogWarning("Tutorial steps not set.");
-			return;
-		}
 
-		StartStep(steps[currentIndex]);
-	}
 
 	void StartStep(TutorialStep step)
 	{
@@ -73,7 +94,7 @@ public class TutorialManager : MonoBehaviour
 
 			case TutorialStep.Complete:
 				Cleanup();
-				ui.Hide();
+				//ui.Hide();
 				break;
 		}
 	}
@@ -94,6 +115,7 @@ public class TutorialManager : MonoBehaviour
 
 	void OnEnemyDestroyed()
 	{
+		Debug.Log("Kimasita");
 		// 撃破判定を使うステップだけ反応
 		if (currentStep != TutorialStep.NormalShot &&
 			currentStep != TutorialStep.TransformChain)
