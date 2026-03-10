@@ -103,7 +103,7 @@ public class PlayerCore : MonoBehaviour
 		//お試しダメージ
 		if(Input.GetKeyDown(KeyCode.O))
 		{
-			Debug.Log("GetKeyDown");
+			//Debug.Log("GetKeyDown");
 			TakeDamage(10);
 		}
 		RechargeAbility();
@@ -283,7 +283,7 @@ public class PlayerCore : MonoBehaviour
 		humanForm.SetActive(nextForm == PlayerForm.Human);
 
 		isTransforming = false; // ロック解除
-		Debug.Log("Transform End");
+		//Debug.Log("Transform End");
 
 		// StateMachineに通知
 		//GetComponentInChildren<PlayerStateMachine>().FinishTransform();

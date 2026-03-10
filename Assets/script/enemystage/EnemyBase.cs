@@ -10,7 +10,10 @@ public class EnemyBase : MonoBehaviour
 	// BlastManager が受け取るイベント
 	public static event Action<Vector3, EnemyBase> OnEnemyExploded;
 
-	//public GameObject explosionPrefab;
+	void Start()
+	{
+		EnemyDirector.Instance.RegisterEnemy();
+	}
 
 	// ------------------------------------
 	// damage を受ける
@@ -44,28 +47,6 @@ public class EnemyBase : MonoBehaviour
 		Destroy(gameObject);
 	}
 
-	// ------------------------------------
-	// 爆発処理（イベントも含む）
-	// ------------------------------------
-	//private void Explode()
-	//{
-	//	if (ExplosionSphere)
-	//	{
-	//
-	//		GameObject fx = Instantiate(ExplosionSphere,
-	//			transform.position,
-	//			Quaternion.identity
-	//		);
-	//		//親を外す
-	//		fx.transform.SetParent(null);
-	//	}
-	//	
-	//
-	//	// 連鎖爆発マネージャーに通知
-	//	OnEnemyExploded?.Invoke(transform.position, this);
-	//	//オブジェクト破壊0.05s遅らせ
-	//	Destroy(gameObject,0.05f);
-	//}
 	private void PlayExplosionEffect()
 	{
 		if (ExplosionSphere)

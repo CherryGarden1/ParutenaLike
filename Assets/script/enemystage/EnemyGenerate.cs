@@ -3,7 +3,7 @@ using UnityEngine;
 public class EnemyGenerate : MonoBehaviour
 {
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
-	
+
 	[SerializeField]
 	private GameObject[] EnemyPrefabs;//素材指定
 	[SerializeField]
@@ -20,16 +20,18 @@ public class EnemyGenerate : MonoBehaviour
 	{
 		Debug.Log($"Trigger entered by: {other.name}");
 		Transform Player = GameObject.Find("PlayerNomalRoot").transform;
-		if (other.CompareTag("Player")) return;
 		
-			Transform player = other.transform;
-			Debug.Log("Player detected"); 
-			//プレイヤーの前方、上に生成
-			Vector3 SpawnPos = Player.position + Vector3.forward * SpawnDistanse;
-			SpawnPos.y += SpawnHeight;
+		if (!other.CompareTag("Player")) 
+			return;
+
+		Transform player = other.transform;
+		//Debug.Log("Player detected");
+		//プレイヤーの前方、上に生成
+		Vector3 SpawnPos = Player.position + Vector3.forward * SpawnDistanse;
+		SpawnPos.y += SpawnHeight;
 
 		formationSpawner.SpawnNext(SpawnPos);
-		
+
 		Generate?.Invoke();
 		Destroy(gameObject);
 

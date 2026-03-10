@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe195a6ccb436cd4ab9ce0075e5dab75, type: 3}
   m_Name: WnwmyFomationData2
   m_EditorClassIdentifier: 
+  formationType: 1
   rows: 2
   cols: 3
   spacing: 5
-  enemyPrefab: {fileID: 0}
+  enemyPrefab: {fileID: 1046270818250376779, guid: cf7353581ad8202469708999735a5470, type: 3}
   moveSpeed: 10
   waveAmplitude: 2
   waveFrequency: 2

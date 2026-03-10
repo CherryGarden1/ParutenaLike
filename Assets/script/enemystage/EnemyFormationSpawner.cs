@@ -13,7 +13,7 @@ public class EnemyFormationSpawner : MonoBehaviour
 	{
 		//ìGÇÃê›åvê}åƒÇ—èoÇµ
 		unusedFomations = new List<EnemyFormationData>(formationList);
-		Debug.Log($"Spawner Awake / formations = {unusedFomations.Count}");
+		//Debug.Log($"Spawner Awake / formations = {unusedFomations.Count}");
 
 	}
 	void Start()
@@ -28,10 +28,10 @@ public class EnemyFormationSpawner : MonoBehaviour
 	}
 	public void SpawnNext(Vector3 position)
 	{
-		Debug.Log("SpawnNext called");
+		//Debug.Log("SpawnNext called");
 		if (unusedFomations.Count == 0)
 		{
-			Debug.Log("All used");
+			//Debug.Log("All used");
 			return;
 		}
 		int index = Random.Range(0,unusedFomations.Count);
@@ -42,6 +42,6 @@ public class EnemyFormationSpawner : MonoBehaviour
 			Instantiate(formationPrefab, position, Quaternion. identity);
 
 		fomation.Init(data);
-		Debug.Log($"Spawned formation: {data.name}");
+		//Debug.Log($"Spawned formation: {data.name}");
 	}
 }

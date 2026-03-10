@@ -115,7 +115,7 @@ public class TutorialManager : MonoBehaviour
 
 	void OnEnemyDestroyed()
 	{
-		Debug.Log("Kimasita");
+		//Debug.Log("Kimasita");
 		// 撃破判定を使うステップだけ反応
 		if (currentStep != TutorialStep.NormalShot &&
 			currentStep != TutorialStep.TransformChain)
