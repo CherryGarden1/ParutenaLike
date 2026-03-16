@@ -31,7 +31,7 @@ public class EnemyFormationSpawner : MonoBehaviour
 		//Debug.Log("SpawnNext called");
 		if (unusedFomations.Count == 0)
 		{
-			//Debug.Log("All used");
+			Debug.Log("All used");
 			return;
 		}
 		int index = Random.Range(0,unusedFomations.Count);
@@ -42,6 +42,7 @@ public class EnemyFormationSpawner : MonoBehaviour
 			Instantiate(formationPrefab, position, Quaternion. identity);
 
 		fomation.Init(data);
-		//Debug.Log($"Spawned formation: {data.name}");
+		Debug.Log($"Spawned formation: {data.name} remainding:{unusedFomations.Count}");
 	}
+
 }

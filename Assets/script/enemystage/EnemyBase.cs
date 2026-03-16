@@ -25,7 +25,7 @@ public class EnemyBase : MonoBehaviour
 		if (hp <= 0)
 		{
 			Die(isBlastDamage);
-			gameObject.AddComponent<Enemy>().Die();
+			//gameObject.AddComponent<Enemy>().Die();
 		}
 	}
 
@@ -58,5 +58,10 @@ public class EnemyBase : MonoBehaviour
 			);
 			fx.transform.SetParent(null);
 		}
+	}
+	void OnDestroy()
+	{
+		if (EnemyDirector.Instance != null)
+			EnemyDirector.Instance.UnregisterEnemy();
 	}
 }

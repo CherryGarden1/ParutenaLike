@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe195a6ccb436cd4ab9ce0075e5dab75, type: 3}
   m_Name: Enemy Formation Data_1
   m_EditorClassIdentifier: 
-  rows: 2
-  cols: 3
+  formationType: 0
+  rows: 6
+  cols: 6
   spacing: 5
-  enemyPrefab: {fileID: 1046270818250376779, guid: cf7353581ad8202469708999735a5470, type: 3}
+  enemyPrefab: {fileID: -7954394394122332428, guid: cf7353581ad8202469708999735a5470, type: 3}
   moveSpeed: 10
   waveAmplitude: 2
   waveFrequency: 2
+  overrideCount: -1

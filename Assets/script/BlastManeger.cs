@@ -24,7 +24,7 @@ public class BlastManeger : MonoBehaviour
 
 	void HandleExplosion(Vector3 pos, EnemyBase origin)
 	{
-		if (exploded.Contains(origin)) return;
+		exploded.Clear();
 
 		exploded.Add(origin);
 		StartCoroutine(ChainRoutine(pos, 1));

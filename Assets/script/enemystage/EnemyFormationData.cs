@@ -1,16 +1,22 @@
 using UnityEngine;
 [CreateAssetMenu(
-	fileName =	"WnwmyFomationData",
+	fileName =	"EnemyFomationData",
 	menuName ="Enemy/Formation Data"
 	)]
 public class EnemyFormationData: ScriptableObject
 {
 	public enum FormationType
 	{
-		Grid,
-		VShape,
-		Line,
-		Circle
+		Grid,//Šiq
+		VShape,//Vš
+		LineHorizontal,//‰¡‚P—ñ
+		LineVertical,//|—ñ
+		Circle,//‰~Œ`
+		XShape,
+		ReverseV,
+		WShape,
+		Random,
+		Guard
 	}
 
 	[Header("Formation Type")]
@@ -21,10 +27,13 @@ public class EnemyFormationData: ScriptableObject
 	public float spacing = 5f;
 
 	[Header("Enemy")]
-	public GameObject enemyPrefab;
+	public EnemyBase enemyPrefab;
 
 	[Header("Movement")]
 	public float moveSpeed = 10f;
-	public float waveAmplitude = 2f;
-	public float waveFrequency = 2f;
+	public float waveAmplitude = 2f;//U•
+	public float waveFrequency = 2f;//•p“x
+	[Header("Enemy Count Override")]
+	public int overrideCount = -1;//”w’è—p-1‚È‚çŒü‚±‚¤
+
 }
